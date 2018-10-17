@@ -3,3 +3,7 @@ sqlSession对象：一次请求 一个session的
 Mapper接口 跟数据库交互
 
 Blog对象 跟数据库表进行映射
+
+
+jdbc.properties 使用utf-8编码格式 不支持amp;
+

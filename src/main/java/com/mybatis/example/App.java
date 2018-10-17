@@ -17,10 +17,11 @@ import java.io.InputStream;
 public class App {
     public static void main(String[] args )throws Exception{
 //        test0();
-        test();
+//        test();
         test1();
-        test2();
-        test3();
+//        test2();
+//        test3();
+        test4();
     }
 
     /**
@@ -88,5 +89,18 @@ public class App {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
         System.out.println(JSONObject.toJSONString(blogMapper.selectBlog(3)));
+    }
+
+    /**
+     * mybatis配置文件中 参数外部properties文件传递
+     * @throws Exception
+     */
+    public static void test4() throws Exception{
+        String resource = "mybatis-config-property.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+        System.out.println(JSONObject.toJSONString(blogMapper.selectByUsername("shanghai")));
     }
 }
