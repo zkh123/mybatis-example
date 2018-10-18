@@ -1,5 +1,6 @@
-package com.mybatis.example;
+package com.mybatis.example.dao;
 
+import com.mybatis.example.entity.Blog;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

@@ -7,3 +7,6 @@ Blog对象 跟数据库表进行映射
 
 jdbc.properties 使用utf-8编码格式 不支持amp;
 
+
+1，返回字段 是在sql中控制的
+2，resultMap是做映射的  表字段跟实体类字段不同 这里就会取到作用。

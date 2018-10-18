@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.example.dao.MovieMapper">
+
+    <resultMap id="movieMap" type="java.util.HashMap">
+        <id column="id" property="id"/>
+        <result column="movieId" property="movieId"/>
+        <result column="title" property="title"/>
+        <result column="url" property="url"/>
+        <result column="director" property="director"/>
+    </resultMap>
+
+    <!--返回返回值接收类型为：List<Map<String,Object>>-->
+    <!--<select id="getByDirectorT" resultMap="movieMap">-->
+        <!--select * FROM movie WHERE director = #{director}-->
+    <!--</select>-->
+
+
+    <!--查询返回所有字段-->
+    <select id="getList" resultType="com.mybatis.example.entity.Movie">
+        select * from movie
+    </select>
+
+
+    <!--查询返回部分字段 返回返回值接收类型为：List<Map<String,Object>>-->
+    <select id="getByDirector" resultMap="movieMap">
+        select id,movieId,title,url,director FROM movie WHERE director = #{director}
+    </select>
+
+    <!--请求参数为int类型 返回指定的字段-->
+    <select id="selectShowtime" parameterType="int" resultMap="movieMap">
+        SELECT movieId,title FROM movie WHERE showtime = #{showtime}
+    </select>
+
+    <!--如果sql的返回类型为resultMap 它就会找上面定义的resultMap 返回字段以sql为准-->
+    <select id="selectComposer" parameterType="String" resultType="map">
+        SELECT movieId,title FROM movie WHERE composer = #{composer}
+    </select>
+
+    <!--如果sql的返回类型为resultMap  返回字段以length,rate,showtime,title 返回类型为：List<Movie>-->
+    <select id="selectRate" parameterType="float" resultType="com.mybatis.example.entity.Movie">
+        SELECT length,rate,showtime,title FROM movie WHERE rate = #{rate}
+    </select>
+
+    <select id="selectById" parameterType="int" resultType="com.mybatis.example.entity.Movie">
+        SELECT showtime,title FROM movie WHERE id = #{id}
+    </select>
+
+</mapper>

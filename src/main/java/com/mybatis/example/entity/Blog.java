@@ -1,4 +1,4 @@
-package com.mybatis.example;
+package com.mybatis.example.entity;
 
 public class Blog {
 
