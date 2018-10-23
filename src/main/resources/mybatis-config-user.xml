@@ -4,21 +4,17 @@
 <configuration>
 
     <!--加载外部配置文件 + 辅助内部自己配置-->
-    <!--<properties resource="jdbc.properties">-->
-        <!--<property name="username" value="root"></property>-->
-    <!--</properties>-->
+    <properties resource="jdbc_user.properties"></properties>
 
     <typeAliases>
-        <typeAlias alias="movie" type="com.mybatis.example.entity.Movie"/>
+        <typeAlias type="com.mybatis.example.entity.User"/>
     </typeAliases>
 
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <!--<property name="driver" value="com.mysql.jdbc.Driver"/>-->
                 <property name="driver" value="${driver}"/>
-                <!--<property name="url" value="jdbc:mysql://127.0.0.1:3406/test"/>-->
                 <property name="url" value="${url}"/>
                 <property name="username" value="${username}"/>
                 <property name="password" value="${password}"/>
@@ -26,7 +22,6 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="BlogMapper.xml"/>
-        <mapper resource="mapper/MovieMapper_resultMap.xml"/>
+        <mapper resource="mapper/UserMapper.xml"/>
     </mappers>
 </configuration>

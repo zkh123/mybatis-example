@@ -7,7 +7,7 @@
     <resultMap id="movieMap" type="java.util.HashMap">
         <id column="id" property="id"/>
         <result column="movieId" property="movieId"/>
-        <result column="title" property="title"/>
+        <result column="title" property="title" jdbcType="VARCHAR" typeHandler="com.mybatis.example.utils.EmptyStringIfNull"/>
         <result column="url" property="url"/>
         <result column="director" property="director"/>
     </resultMap>
@@ -48,4 +48,13 @@
         SELECT showtime,title FROM movie WHERE id = #{id}
     </select>
 
+    <!--mybatis-config-property-out.xml 中配置了 typeAlias 标签-->
+    <select id="selectByLanguage" parameterType="String" resultType="movie">
+        SELECT showtime,title,language,url FROM movie WHERE language = #{language}
+    </select>
+
+    <!--练习typeHandler-->
+    <select id="selectComposerHandler" parameterType="String" resultMap="movieMap">
+        SELECT director,movieId,title FROM movie WHERE composer = #{composer}
+    </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.mybatis.example.entity;
 /**
  * Created by huanglijun on 2018/10/18.
  */
+
 public class Movie {
     private int id;
     private int movieId;
