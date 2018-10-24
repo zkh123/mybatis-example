@@ -3,9 +3,15 @@ package com.mybatis.example;
 import com.alibaba.fastjson.JSONObject;
 import com.mybatis.example.dao.BlogMapper;
 import com.mybatis.example.dao.MovieMapper;
+<<<<<<< HEAD
 import com.mybatis.example.dao.PingTBMapper;
 import com.mybatis.example.entity.Movie;
 import com.mybatis.example.entity.PingTB;
+=======
+import com.mybatis.example.dao.UserMapper;
+import com.mybatis.example.entity.Movie;
+import com.mybatis.example.entity.User;
+>>>>>>> 1c92744a28f237418d37b181d65fce9c91aaf54c
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -32,8 +38,12 @@ public class App {
 //        test3();
 //        test4();
 //        test5();
+<<<<<<< HEAD
 //        test6();
         test7();
+=======
+        test6();
+>>>>>>> 1c92744a28f237418d37b181d65fce9c91aaf54c
     }
 
     /**
@@ -152,13 +162,52 @@ public class App {
 //        System.out.println(JSONObject.toJSONString(list2));
 
         List<Movie> list3 = movieMapper.selectRate(8f);
-        System.out.println(JSONObject.toJSONString(list3));  //JSONObject.toJSONString()
+//        System.out.println(JSONObject.toJSONString(list3));  //JSONObject.toJSONString()
 
         List<Movie> list4 = movieMapper.selectById(1);
-        System.out.println(JSONObject.toJSONString(list4));
+//        System.out.println(JSONObject.toJSONString(list4));
 
 //        List<Map<String,Object>> list5 = movieMapper.getByDirectorT("尔冬升");
 //        System.out.println(JSONObject.toJSONString(list5));
+
+        List<Movie> list6 = movieMapper.selectByLanguage("英语");
+//        System.out.println(JSONObject.toJSONString(list6));
+
+
+        List<Movie> list7 = movieMapper.selectComposerHandler("尔冬升");
+        System.out.println(JSONObject.toJSONString(list7));
+    }
+
+
+    /**
+     * mybatis 中 typeHandler  有什么应用场景啊？
+     * 类型转换 比如 枚举转
+     * 性别  男女   表中存储 int 1/0  ui展示 男/女
+     * @throws Exception
+     */
+    public static void test6() throws Exception{
+        String resource = "mybatis-config-user.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        UserMapper userMapper = sqlSession1.getMapper(UserMapper.class);
+
+//        User user = userMapper.selectUserById(1);
+//        System.out.println(JSONObject.toJSONString(user));
+
+//        User user1 = userMapper.selectUserById(2);
+//        System.out.println(JSONObject.toJSONString(user1));
+
+//        List<User> list = userMapper.selectUser();
+//        System.out.println(JSONObject.toJSONString(list));
+
+        User user3 = userMapper.selectUserByIdTow(1);
+        System.out.println(JSONObject.toJSONString(user3));
+
+        User user4 = userMapper.selectUserByIdTow(2);
+//        System.out.println(JSONObject.toJSONString(user4));
+
     }
 
 

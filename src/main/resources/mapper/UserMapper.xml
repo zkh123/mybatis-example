@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.example.dao.UserMapper">
+
+    <!--通过 as 来进行别名的处理 而不用resultMap  而且 inserttime 可以自动映射到insertTime  默认支持驼峰切换-->
+    <select id="selectUserById" resultType="com.mybatis.example.entity.User">
+        select id,age,name,test_type AS testType,test_date AS testDate,
+            role,sex,phone,inserttime,updatetime,isactive from t_user where id = #{id}
+    </select>
+
+    <resultMap id="userResultMap" type="com.mybatis.example.entity.User">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="age" property="age"></result>
+        <result column="test_type" property="testType"></result>
+        <result column="test_date" property="testDate"></result>
+        <result column="role" property="role"></result>
+        <result column="sex" property="sex" jdbcType="INTEGER"
+                javaType="com.mybatis.example.utils.Sex"
+                typeHandler="com.mybatis.example.utils.SexTypeHandler"></result>
+        <result column="phone" property="phone"></result>
+        <result column="inserttime" property="insertTime"></result>
+        <result column="updatetime" property="updateTime"></result>
+        <result column="isactive" property="isActive"></result>
+    </resultMap>
+
+    <select id="selectUserByIdTow" resultMap="userResultMap">
+        select * from t_user where id = #{id}
+    </select>
+
+    <select id="selectUser" resultType="com.mybatis.example.entity.User">
+        select * from t_user
+    </select>
+
+
+</mapper>

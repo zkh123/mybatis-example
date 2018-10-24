@@ -23,4 +23,10 @@ public interface MovieMapper {
     List<Movie> selectRate(@Param(value = "rate")float rate);
 
     List<Movie> selectById(@Param(value = "id")int id);
+
+    List<Movie> selectByLanguage(@Param(value = "language")String language);
+
+    List<Movie> selectComposerHandler(@Param(value = "composer")String composer);
+
+
 }
