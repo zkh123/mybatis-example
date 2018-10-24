@@ -74,4 +74,17 @@
             #{pingTBId}
         </foreach>
     </select>
+
+    <!--删除-->
+    <delete id="deleteById">
+        delete from ping_tb where  id = #{id}
+    </delete>
+
+    <!--批量删除-->
+    <delete id="batchDelete" parameterType="int[]">
+        delete from ping_tb where id in
+        <foreach collection="array" item="arr" index="no" open="(" separator="," close=")">
+            #{arr}
+        </foreach>
+    </delete>
 </mapper>

@@ -30,4 +30,8 @@ public interface PingTBMapper {
 
     List<PingTB> batchSelect(@Param(value = "ids")List<Integer> listId);
 
+    Integer deleteById(@Param(value = "id")int id);
+
+    Integer batchDelete(@Param(value = "array")int[] ids);
+
 }

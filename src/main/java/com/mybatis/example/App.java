@@ -38,7 +38,9 @@ public class App {
 //        test6();
 //        test7();
 //        test8();
-        test9();
+//        test9();
+//        test10();
+        test11();
     }
 
     /**
@@ -279,7 +281,7 @@ public class App {
         List<PingTB> list = new ArrayList<PingTB>();
         for (int i = 0 ; i < 50; i++){
             PingTB pingTB = new PingTB();
-            pingTB.setUserid(1000);
+            pingTB.setUserid(3000);
             pingTB.setListingid(-1);
             pingTB.setBizid(1201);
             pingTB.setZuid(103);
@@ -358,5 +360,44 @@ public class App {
         sqlSession.commit();  //千万不要忘记commit提交动作
         sqlSession.close();
         System.out.println(JSONObject.toJSONString(pingTBList));
+    }
+
+    public static void test10() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-pingTB.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        PingTBMapper pingTBMapper = sqlSession.getMapper(PingTBMapper.class);
+        //第三步：接口调用方法执行sql
+        Integer size = pingTBMapper.deleteById(56);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(size);
+    }
+
+    public static void test11() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-pingTB.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        PingTBMapper pingTBMapper = sqlSession.getMapper(PingTBMapper.class);
+        //第三步：接口调用方法执行sql
+        int [] arr = {130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160};
+        Integer size = pingTBMapper.batchDelete(arr);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(size);
     }
 }
