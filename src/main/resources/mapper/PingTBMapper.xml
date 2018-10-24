@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.example.dao.PingTBMapper">
+
+    <select id="selectPingById" resultType="com.mybatis.example.entity.PingTB">
+        select * from ping_tb where id = #{id}
+    </select>
+
+    <select id="selectPingByBizId2" parameterType="int" resultType="hashmap">
+        select * from ping_tb where bizid = #{BizId}
+    </select>
+
+    <select id="selectPingByBizId3" parameterType="int" resultType="hashmap">
+        select id,userid,listingid,bizid,zuid,dingid from ping_tb where bizid = #{BizId}
+    </select>
+
+    <resultMap id="resultMapPing" type="com.mybatis.example.entity.PingTB">
+        <id column="id" property="id"></id>
+        <result column="userid" property="userid"></result>
+        <result column="listingid" property="listingid"></result>
+        <result column="bizid" property="bizid"></result>
+        <result column="zuid" property="zuid"></result>
+        <result column="dingid" property="dingid"></result>
+        <result column="months" property="months"></result>
+        <result column="credit_score" property="creditScore"></result>
+        <result column="credit_level" property="creditLevel"></result>
+        <result column="credit_bin" property="creditBin"></result>
+        <result column="credit_level_pro" property="creditLevelPro"></result>
+        <result column="model_label" property="modelLabel"></result>
+        <result column="model_ver" property="modelVer"></result>
+        <result column="process_flag" property="processFlag"></result>
+        <result column="block_days" property="blockDays"></result>
+        <result column="info" property="info"></result>
+        <result column="inserttime" property="insertTime"></result>
+        <result column="updatetime" property="updateTime"></result>
+        <result column="isactive" property="isActive"></result>
+    </resultMap>
+
+
+    <select id="selectPingByBizId" resultMap="resultMapPing">
+        select * from ping_tb where bizid = #{BizId}
+    </select>
+
+    <select id="selectPingByBizId4" resultMap="resultMapPing">
+        select id,userid,listingid,bizid,zuid,dingid from ping_tb where bizid = #{BizId}
+    </select>
+
+    <!--插入单条-->
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
+        insert into ping_tb (userid,listingid,bizid,zuid,dingid,months,credit_score,credit_level,credit_bin,credit_level_pro,model_label,model_ver,process_flag,block_days,info,insertTime,updatetime)
+        values (#{userid},#{listingid},#{bizid},#{zuid},#{dingid},#{months},#{creditScore},#{creditLevel},#{creditBin},#{creditLevelPro},#{modelLabel},#{modelVer},#{processFlag},#{blockDays},#{info},NOW(),NOW())
+    </insert>
+
+    <!--批量insert操作-->
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+        insert into ping_tb (userid,listingid,bizid,zuid,dingid,months,credit_score,credit_level,credit_bin,credit_level_pro,model_label,model_ver,process_flag,block_days,info,insertTime,updatetime)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userid},#{item.listingid},#{item.bizid},#{item.zuid},#{item.dingid},#{item.months},#{item.creditScore},#{item.creditLevel},#{item.creditBin},#{item.creditLevelPro},#{item.modelLabel},#{item.modelVer},#{item.processFlag},#{item.blockDays},#{item.info},NOW(),NOW())
+        </foreach>
+    </insert>
+
+    <!---->
+</mapper>

@@ -3,7 +3,9 @@ package com.mybatis.example;
 import com.alibaba.fastjson.JSONObject;
 import com.mybatis.example.dao.BlogMapper;
 import com.mybatis.example.dao.MovieMapper;
+import com.mybatis.example.dao.PingTBMapper;
 import com.mybatis.example.entity.Movie;
+import com.mybatis.example.entity.PingTB;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -12,6 +14,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -28,7 +31,9 @@ public class App {
 //        test2();
 //        test3();
 //        test4();
-        test5();
+//        test5();
+//        test6();
+        test7();
     }
 
     /**
@@ -154,5 +159,105 @@ public class App {
 
 //        List<Map<String,Object>> list5 = movieMapper.getByDirectorT("尔冬升");
 //        System.out.println(JSONObject.toJSONString(list5));
+    }
+
+
+    public static void test6() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-pingTB.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        PingTBMapper pingTBMapper = sqlSession.getMapper(PingTBMapper.class);
+        //第三步：接口调用方法执行sql
+        List<PingTB> list = pingTBMapper.selectPingById(1);
+        System.out.println(JSONObject.toJSONString(list));
+
+        List<PingTB> list1 = pingTBMapper.selectPingByBizId(1201);
+        System.out.println(JSONObject.toJSONString(list1));
+
+        List<Map<String,Object>> list2 = pingTBMapper.selectPingByBizId2(1201);
+        System.out.println(JSONObject.toJSONString(list2));
+
+        List<Map<String,Object>> list3 = pingTBMapper.selectPingByBizId3(1201);
+        System.out.println(JSONObject.toJSONString(list3));
+
+        List<PingTB> list4 = pingTBMapper.selectPingByBizId4(1201);
+        System.out.println(JSONObject.toJSONString(list4));
+
+        PingTB pingTB = new PingTB();
+        pingTB.setUserid(1000);
+        pingTB.setListingid(-1);
+        pingTB.setBizid(1201);
+        pingTB.setZuid(103);
+        pingTB.setDingid(-1);
+        pingTB.setMonths(-2);
+        pingTB.setCreditScore(-1.0000000000000000f);
+        pingTB.setCreditLevel("B");
+        pingTB.setCreditBin(-1);
+        pingTB.setCreditLevelPro("BB");
+        pingTB.setModelLabel("appyi");
+        pingTB.setModelVer("v3_201804");
+        pingTB.setProcessFlag(1);
+        pingTB.setBlockDays(300);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("a","123454");
+        jsonObject.put("b","上海");
+        pingTB.setInfo(JSONObject.toJSONString(jsonObject));
+        Integer size = pingTBMapper.insertOne(pingTB);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(size);
+
+
+
+
+    }
+
+    public static void test7() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-pingTB.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        PingTBMapper pingTBMapper = sqlSession.getMapper(PingTBMapper.class);
+        //第三步：接口调用方法执行sql
+        List<PingTB> list = new ArrayList<PingTB>();
+        for (int i = 0 ; i < 50; i++){
+            PingTB pingTB = new PingTB();
+            pingTB.setUserid(1000);
+            pingTB.setListingid(-1);
+            pingTB.setBizid(1201);
+            pingTB.setZuid(103);
+            pingTB.setDingid(-1);
+            pingTB.setMonths(-2);
+            pingTB.setCreditScore(-1.0000000000000000f);
+            pingTB.setCreditLevel("B");
+            pingTB.setCreditBin(-1);
+            pingTB.setCreditLevelPro("BB");
+            pingTB.setModelLabel("appyi");
+            pingTB.setModelVer("v3_201804");
+            pingTB.setProcessFlag(1);
+            pingTB.setBlockDays(300);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("a","123454");
+            jsonObject.put("b","上海");
+            pingTB.setInfo(JSONObject.toJSONString(jsonObject));
+            list.add(pingTB);
+        }
+        Integer size = pingTBMapper.batchInsert(list);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(size);
     }
 }
