@@ -62,5 +62,16 @@
         </foreach>
     </insert>
 
-    <!---->
+    <!--更新-->
+    <update id="updateById">
+        update ping_tb set userid = #{userid},listingid = #{listingid},bizid = #{bizid},process_flag = #{processFlag},info = #{info},updatetime = NOW() where id = #{id}
+    </update>
+
+    <!--批量查询-->
+    <select id="batchSelect" resultType="com.mybatis.example.entity.PingTB">
+        select  * from ping_tb where id in
+        <foreach collection="ids" item="pingTBId" open="(" close=")" separator=",">
+            #{pingTBId}
+        </foreach>
+    </select>
 </mapper>

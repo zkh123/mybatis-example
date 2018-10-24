@@ -3,15 +3,11 @@ package com.mybatis.example;
 import com.alibaba.fastjson.JSONObject;
 import com.mybatis.example.dao.BlogMapper;
 import com.mybatis.example.dao.MovieMapper;
-<<<<<<< HEAD
 import com.mybatis.example.dao.PingTBMapper;
 import com.mybatis.example.entity.Movie;
 import com.mybatis.example.entity.PingTB;
-=======
 import com.mybatis.example.dao.UserMapper;
-import com.mybatis.example.entity.Movie;
 import com.mybatis.example.entity.User;
->>>>>>> 1c92744a28f237418d37b181d65fce9c91aaf54c
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -38,12 +34,11 @@ public class App {
 //        test3();
 //        test4();
 //        test5();
-<<<<<<< HEAD
+//        test66();
 //        test6();
-        test7();
-=======
-        test6();
->>>>>>> 1c92744a28f237418d37b181d65fce9c91aaf54c
+//        test7();
+//        test8();
+        test9();
     }
 
     /**
@@ -185,7 +180,7 @@ public class App {
      * 性别  男女   表中存储 int 1/0  ui展示 男/女
      * @throws Exception
      */
-    public static void test6() throws Exception{
+    public static void test66() throws Exception{
         String resource = "mybatis-config-user.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
@@ -308,5 +303,60 @@ public class App {
         sqlSession.commit();  //千万不要忘记commit提交动作
         sqlSession.close();
         System.out.println(size);
+    }
+
+
+    public static void test8() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-pingTB.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        PingTBMapper pingTBMapper = sqlSession.getMapper(PingTBMapper.class);
+        //第三步：接口调用方法执行sql
+        PingTB pingTB = new PingTB();
+        pingTB.setId(56);
+//        update ping_tb set userid = #{userid},listingid = #{listingid},bizid = #{bizid},process_flag = #{processFlag},info = #{info},updatetime = NOW() where id = #{id}
+        pingTB.setUserid(2000);
+        pingTB.setListingid(-20);
+        pingTB.setBizid(110);
+        pingTB.setProcessFlag(-1);
+        JSONObject info = new JSONObject();
+        info.put("上海","shanghai");
+        info.put("北京","beijing");
+        pingTB.setInfo(JSONObject.toJSONString(info));
+        Integer size = pingTBMapper.updateById(pingTB);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(size);
+    }
+
+
+    public static void test9() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-pingTB.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        PingTBMapper pingTBMapper = sqlSession.getMapper(PingTBMapper.class);
+        //第三步：接口调用方法执行sql
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(1);
+        list.add(2);
+        list.add(56);
+        List<PingTB> pingTBList = pingTBMapper.batchSelect(list);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(JSONObject.toJSONString(pingTBList));
     }
 }

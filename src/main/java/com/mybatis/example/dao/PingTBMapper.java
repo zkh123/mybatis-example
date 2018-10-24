@@ -26,4 +26,8 @@ public interface PingTBMapper {
 
     Integer batchInsert(List<PingTB> list);
 
+    Integer updateById(PingTB pingTB);
+
+    List<PingTB> batchSelect(@Param(value = "ids")List<Integer> listId);
+
 }
