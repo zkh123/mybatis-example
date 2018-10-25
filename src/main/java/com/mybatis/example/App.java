@@ -3,6 +3,8 @@ package com.mybatis.example;
 import com.alibaba.fastjson.JSONObject;
 import com.mybatis.example.complexResultMap.Blog;
 import com.mybatis.example.dao.*;
+import com.mybatis.example.dao.UserMapper;
+import com.mybatis.example.dao.home.*;
 import com.mybatis.example.entity.Movie;
 import com.mybatis.example.entity.PingTB;
 import com.mybatis.example.entity.User;
@@ -48,7 +50,7 @@ public class App {
 //        test13();
 //        test14();
 //        test15();
-//        test16();
+        test16();
     }
 
     private static void test16() {
@@ -488,6 +490,5 @@ public class App {
         sqlSession.close();
         System.out.println(JSONObject.toJSONString(blog));
     }
-
 
 }

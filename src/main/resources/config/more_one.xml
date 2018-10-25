@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis.example.dao.home.UseroneAndPostoneMapper">
+
+    <resultMap id="resultMapPost" type="Post">
+        <result property="id" column="post_id"></result>
+        <result property="title" column="title"></result>
+        <result property="content" column="content"></result>
+        <!--单个实体-->
+        <association property="user" javaType="User">
+            <result property="id" column="userid"></result>
+            <result property="username" column="username"></result>
+            <result property="mobile" column="mobile"></result>
+        </association>
+    </resultMap>
+
+    <select id="selectMoreAndOne" resultMap="resultMapPost">
+        select u.*,p.*
+        from user_one u, post_one p
+        WHERE u.id = p.userid AND p.post_id = #{id};
+    </select>
+
+</mapper>
