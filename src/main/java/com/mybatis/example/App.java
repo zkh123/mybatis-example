@@ -12,6 +12,8 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,6 +28,7 @@ import java.util.Properties;
  *
  */
 public class App {
+    private static Logger logger= Logger.getLogger(App.class);
     public static void main(String[] args )throws Exception{
 //        test0();
 //        test();
@@ -34,7 +37,7 @@ public class App {
 //        test3();
 //        test4();
 //        test5();
-//        test66();
+        test66();
 //        test6();
 //        test7();
 //        test8();
@@ -44,7 +47,12 @@ public class App {
 //        test12();
 //        test13();
 //        test14();
-        test15();
+//        test15();
+//        test16();
+    }
+
+    private static void test16() {
+        logger.info("hello world!");
     }
 
     /**
@@ -187,6 +195,7 @@ public class App {
      * @throws Exception
      */
     public static void test66() throws Exception{
+        logger.info("---start---");
         String resource = "mybatis-config-user.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);

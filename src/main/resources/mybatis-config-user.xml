@@ -3,6 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+    <!--<settings>-->
+             <!--<setting name="cacheEnabled" value="true"/>-->
+             <!--<setting name="logImpl" value="STDOUT_LOGGING"/>-->
+         <!--</settings>-->
+
     <!--加载外部配置文件 + 辅助内部自己配置-->
     <properties resource="jdbc_user.properties"></properties>
 
@@ -24,4 +29,9 @@
     <mappers>
         <mapper resource="mapper/UserMapper.xml"/>
     </mappers>
+    
+    <!--<settings>-->
+        <!--<setting name="logImpl" value="STDOUT_LOGGING"/>-->
+    <!--</settings>-->
+
 </configuration>
