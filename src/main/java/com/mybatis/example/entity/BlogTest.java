@@ -1,6 +1,6 @@
 package com.mybatis.example.entity;
 
-public class Blog {
+public class BlogTest {
 
     private int id;
     private String username;

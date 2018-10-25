@@ -26,7 +26,7 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="BlogMapper.xml"/>
+        <mapper resource="BlogTestMapper.xml"/>
         <mapper resource="mapper/MovieMapper_resultMap.xml"/>
     </mappers>
 </configuration>

@@ -74,12 +74,6 @@
             #{pingTBId}
         </foreach>
     </select>
-
-    <!--删除-->
-    <delete id="deleteById">
-        delete from ping_tb where  id = #{id}
-    </delete>
-
     <!--批量删除-->
     <delete id="batchDelete" parameterType="int[]">
         delete from ping_tb where id in
@@ -87,4 +81,127 @@
             #{arr}
         </foreach>
     </delete>
+
+    <!--删除-->
+    <delete id="deleteById">
+        delete from ping_tb where  id = #{id}
+    </delete>
+
+
+    <!-- 定义sql片段，Id是唯一标识
+         建议：是基于单表来定义sql片段，这样的话sql片段的可重用性才高，在sql片段中不要包含where
+         传递单个的对象 对象名称需要早PingTBMapper.class接口中 使用@Param进行标识出来 @Param(value = "pingTBVo"
+     -->
+    <sql id="query_ping_where" >
+        <if test="pingTBVo!=null">
+            <if test="pingTBVo.userid!=null and pingTBVo.userid!='' ">
+                and userid=#{pingTBVo.userid}
+            </if>
+            <if test="pingTBVo.listingid!=null and pingTBVo.listingid!='' ">
+                and listingid=#{pingTBVo.listingid}
+            </if>
+            <if test="pingTBVo.bizid!=null and pingTBVo.bizid!='' ">
+                and bizid=#{pingTBVo.bizid}
+            </if>
+        </if>
+    </sql>
+
+    <!-- 用户信息综合查询
+        #{pingTBVo.userid}:取出pojo包装对象中性别值
+        ${pingTBVo.listingid}：取出pojo对象中用户名称
+    -->
+    <select id="findPingList" parameterType="com.mybatis.example.vo.PingTBVo" resultType="com.mybatis.example.entity.PingTB">
+        select * from ping_tb
+        <!-- 动态sql查询：where可以自动去掉第一个and -->
+        <where>
+            <!-- 引用sql片段的id，如果refid指定的不在本mapper.xml中，需要前边加namespace -->
+            <include refid="query_ping_where"></include>
+            and
+            isactive = true
+            <!-- 这里可以引用其它的sql片段 -->
+        </where>
+    </select>
+
+    <sql id="cols">
+        id,userid,listingid,bizid,zuid,dingid
+    </sql>
+
+    <select id="selectPingByBizId5" resultMap="resultMapPing">
+        select <include refid="cols"></include>
+        from ping_tb where bizid = #{BizId}
+    </select>
+
+    <!--映射回来 自动分装到指定的类中-->
+    <select id="selectPingById1" resultType="com.mybatis.example.model.PingModel">
+        select userid,listingid from ping_tb where id = #{id}
+    </select>
+
+    <resultMap id="detailedBlogResultMap" type="Blog">
+        <constructor>
+            <idArg column="blog_id" javaType="int"/>
+        </constructor>
+
+        <result property="title" column="blog_title"/>
+
+        <association property="author" javaType="Author">
+            <id property="id" column="author_id"/>
+            <result property="username" column="author_username"/>
+            <result property="password" column="author_password"/>
+            <result property="email" column="author_email"/>
+            <result property="bio" column="author_bio"/>
+            <result property="favouriteSection" column="author_favourite_section"/>
+        </association>
+
+        <collection property="posts" ofType="Post">
+            <id property="id" column="post_id"/>
+            <result property="subject" column="post_subject"/>
+            <association property="author" javaType="Author"/>
+            <collection property="comments" ofType="Comment">
+                <id property="id" column="comment_id"/>
+            </collection>
+            <collection property="tags" ofType="Tag" >
+                <id property="id" column="tag_id"/>
+            </collection>
+            <discriminator javaType="int" column="draft">
+                <case value="1" resultType="DraftPost"/>
+            </discriminator>
+        </collection>
+
+    </resultMap>
+
+    <select id="selectBlogDetails" resultMap="detailedBlogResultMap">
+        select
+           B.id as blog_id,
+           B.title as blog_title,
+           B.author_id as blog_author_id,
+           A.id as author_id,
+           A.username as author_username,
+           A.password as author_password,
+           A.email as author_email,
+           A.bio as author_bio,
+           A.favourite_section as author_favourite_section,
+           P.id as post_id,
+           P.blog_id as post_blog_id,
+           P.author_id as post_author_id,
+           P.created_on as post_created_on,
+           P.section as post_section,
+           P.subject as post_subject,
+           P.draft as draft,
+           P.body as post_body,
+           C.id as comment_id,
+           C.post_id as comment_post_id,
+           C.name as comment_name,
+           C.comment as comment_text,
+           T.id as tag_id,
+           T.name as tag_name
+        from Blog B
+           left outer join Author A on B.author_id = A.id
+           left outer join Post P on B.id = P.blog_id
+           left outer join Comment C on P.id = C.post_id
+           left outer join Post_Tag PT on PT.post_id = P.id
+           left outer join Tag T on PT.tag_id = T.id
+        where B.id = #{id}
+    </select>
+
+
 </mapper>

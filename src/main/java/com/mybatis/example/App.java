@@ -1,13 +1,13 @@
 package com.mybatis.example;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mybatis.example.dao.BlogMapper;
-import com.mybatis.example.dao.MovieMapper;
-import com.mybatis.example.dao.PingTBMapper;
+import com.mybatis.example.complexResultMap.Blog;
+import com.mybatis.example.dao.*;
 import com.mybatis.example.entity.Movie;
 import com.mybatis.example.entity.PingTB;
-import com.mybatis.example.dao.UserMapper;
 import com.mybatis.example.entity.User;
+import com.mybatis.example.model.PingModel;
+import com.mybatis.example.vo.PingTBVo;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -40,7 +40,11 @@ public class App {
 //        test8();
 //        test9();
 //        test10();
-        test11();
+//        test11();
+//        test12();
+//        test13();
+//        test14();
+        test15();
     }
 
     /**
@@ -52,7 +56,7 @@ public class App {
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream,"local_test");
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        System.out.println(JSONObject.toJSONString(sqlSession.getMapper(BlogMapper.class).selectBlog(4)));
+        System.out.println(JSONObject.toJSONString(sqlSession.getMapper(BlogTestMapper.class).selectBlog(4)));
 
     }
 
@@ -66,9 +70,9 @@ public class App {
         //第一步：拿到sqlSession对象
         SqlSession sqlSession = sqlSessionFactory.openSession();
         //第二步：拿到Mapper接口实例
-        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+        BlogTestMapper blogTestMapper = sqlSession.getMapper(BlogTestMapper.class);
         //第三步：接口调用方法执行sql
-        System.out.println(JSONObject.toJSONString(blogMapper.selectBlog(1)));
+        System.out.println(JSONObject.toJSONString(blogTestMapper.selectBlog(1)));
     }
 
     public static void test1() throws Exception{
@@ -82,9 +86,9 @@ public class App {
         //第一步：拿到sqlSession对象
         SqlSession sqlSession = sqlSessionFactory.openSession();
         //第二步：拿到Mapper接口实例
-        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+        BlogTestMapper blogTestMapper = sqlSession.getMapper(BlogTestMapper.class);
         //第三步：接口调用方法执行sql
-        System.out.println(JSONObject.toJSONString(blogMapper.selectByUsername("shanghai")));
+        System.out.println(JSONObject.toJSONString(blogTestMapper.selectByUsername("shanghai")));
     }
 
     public static void test2() throws Exception{
@@ -96,8 +100,8 @@ public class App {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configFile);
         //加载配置文件得到SqlSessionFactory
         SqlSession sqlSession= sqlSessionFactory.openSession();
-        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
-        System.out.println(JSONObject.toJSONString(blogMapper.selectBlog(2)));
+        BlogTestMapper blogTestMapper = sqlSession.getMapper(BlogTestMapper.class);
+        System.out.println(JSONObject.toJSONString(blogTestMapper.selectBlog(2)));
     }
 
     public static void test3() throws Exception{
@@ -106,8 +110,8 @@ public class App {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
-        System.out.println(JSONObject.toJSONString(blogMapper.selectBlog(3)));
+        BlogTestMapper blogTestMapper = sqlSession.getMapper(BlogTestMapper.class);
+        System.out.println(JSONObject.toJSONString(blogTestMapper.selectBlog(3)));
     }
 
     /**
@@ -120,8 +124,8 @@ public class App {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
         SqlSession sqlSession1 = sqlSessionFactory.openSession();
-        BlogMapper blogMapper = sqlSession1.getMapper(BlogMapper.class);
-        System.out.println(JSONObject.toJSONString(blogMapper.selectByUsername("shanghai")));
+        BlogTestMapper blogTestMapper = sqlSession1.getMapper(BlogTestMapper.class);
+        System.out.println(JSONObject.toJSONString(blogTestMapper.selectByUsername("shanghai")));
 
         SqlSession sqlSession2 = sqlSessionFactory.openSession();
         MovieMapper movieMapper = sqlSession2.getMapper(MovieMapper.class);
@@ -143,8 +147,8 @@ public class App {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream,properties);
 
         SqlSession sqlSession1 = sqlSessionFactory.openSession();
-        BlogMapper blogMapper = sqlSession1.getMapper(BlogMapper.class);
-//        System.out.println(JSONObject.toJSONString(blogMapper.selectByUsername("shanghai")));
+        BlogTestMapper blogTestMapper = sqlSession1.getMapper(BlogTestMapper.class);
+//        System.out.println(JSONObject.toJSONString(blogTestMapper.selectByUsername("shanghai")));
 
         SqlSession sqlSession2 = sqlSessionFactory.openSession();
         MovieMapper movieMapper = sqlSession2.getMapper(MovieMapper.class);
@@ -207,7 +211,6 @@ public class App {
 
     }
 
-
     public static void test6() throws Exception{
         /**
          * 加载相对路径
@@ -259,10 +262,6 @@ public class App {
         sqlSession.commit();  //千万不要忘记commit提交动作
         sqlSession.close();
         System.out.println(size);
-
-
-
-
     }
 
     public static void test7() throws Exception{
@@ -307,7 +306,6 @@ public class App {
         System.out.println(size);
     }
 
-
     public static void test8() throws Exception{
         /**
          * 加载相对路径
@@ -337,7 +335,6 @@ public class App {
         sqlSession.close();
         System.out.println(size);
     }
-
 
     public static void test9() throws Exception{
         /**
@@ -400,4 +397,88 @@ public class App {
         sqlSession.close();
         System.out.println(size);
     }
+
+    public static void test12() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-pingTB.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        PingTBMapper pingTBMapper = sqlSession.getMapper(PingTBMapper.class);
+        //第三步：接口调用方法执行sql
+        PingTBVo pingTBVo = new PingTBVo();
+        pingTBVo.setBizid(1202);
+        pingTBVo.setUserid(10000);
+        List<PingTB> list = pingTBMapper.findPingList(pingTBVo);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(JSONObject.toJSONString(list));
+    }
+
+    public static void test13() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-pingTB.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        PingTBMapper pingTBMapper = sqlSession.getMapper(PingTBMapper.class);
+        //第三步：接口调用方法执行sql
+
+        List<PingTB> list = pingTBMapper.selectPingByBizId5(1202);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(JSONObject.toJSONString(list));
+    }
+
+    public static void test14() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-pingTB.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        PingTBMapper pingTBMapper = sqlSession.getMapper(PingTBMapper.class);
+        //第三步：接口调用方法执行sql
+
+        PingModel pingTB = pingTBMapper.selectPingById1(1);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(JSONObject.toJSONString(pingTB));
+    }
+
+    public static void test15() throws Exception{
+        /**
+         * 加载相对路径
+         */
+        String resource = "spring/mybatis-config-complexResultMap.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //第一步：拿到sqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //第二步：拿到Mapper接口实例
+        BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
+        //第三步：接口调用方法执行sql
+
+        Blog blog = blogMapper.findById(1);
+        sqlSession.commit();  //千万不要忘记commit提交动作
+        sqlSession.close();
+        System.out.println(JSONObject.toJSONString(blog));
+    }
+
+
 }

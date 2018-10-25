@@ -1,7 +1,8 @@
 package com.mybatis.example.dao;
 
-
 import com.mybatis.example.entity.PingTB;
+import com.mybatis.example.model.PingModel;
+import com.mybatis.example.vo.PingTBVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -33,5 +34,11 @@ public interface PingTBMapper {
     Integer deleteById(@Param(value = "id")int id);
 
     Integer batchDelete(@Param(value = "array")int[] ids);
+
+    List<PingTB> findPingList(@Param(value = "pingTBVo") PingTBVo pingTBVo);
+
+    List<PingTB> selectPingByBizId5(@Param(value = "BizId")int BizId);
+
+    PingModel selectPingById1(@Param(value = "id")int id);
 
 }
