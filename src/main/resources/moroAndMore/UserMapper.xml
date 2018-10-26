@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.example.moroAndMore.UserMapper">
+    <!--private int id;-->
+    <!--private String username;-->
+    <!--private String mobile;-->
+    <!--private List<Group> groups;-->
+
+    <!--private int groupId;-->
+    <!--private String groupName;-->
+    <!--private List<User> users;-->
+
+    <!--根据用户id 查询该信息以及其所在的项目组-->
+
+</mapper>

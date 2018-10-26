@@ -21,12 +21,12 @@ public class Demo {
     public static void main(String[] args) throws Exception {
 //        test17();
 
-//        test18();
+        test18();
 //        test19();
 //        test20();
 //        test21();
 //        test22();
-        test23();
+//        test23();
     }
 
     /**
@@ -53,7 +53,7 @@ public class Demo {
     }
 
     /**
-     * 根据id查询
+     * 根据id查询 一对多的查询
      * @throws Exception
      */
     public static void test18() throws Exception{
@@ -182,7 +182,7 @@ public class Demo {
     }
 
     /**
-     * 一对多联合查询
+     * 多对一联合查询
      * @throws Exception
      */
     public static void test23() throws Exception{

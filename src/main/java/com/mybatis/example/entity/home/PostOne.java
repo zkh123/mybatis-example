@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class PostOne implements Serializable{
     private int id;
-    private User user;
+    private UserOne userOne;
     private String title;
     private String content;
 
@@ -19,12 +19,12 @@ public class PostOne implements Serializable{
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public UserOne getUserOne() {
+        return userOne;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserOne(UserOne userOne) {
+        this.userOne = userOne;
     }
 
     public String getTitle() {

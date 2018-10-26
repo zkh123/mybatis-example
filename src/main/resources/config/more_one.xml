@@ -9,7 +9,7 @@
         <result property="title" column="title"></result>
         <result property="content" column="content"></result>
         <!--单个实体-->
-        <association property="user" javaType="User">
+        <association property="userOne" javaType="User">
             <result property="id" column="userid"></result>
             <result property="username" column="username"></result>
             <result property="mobile" column="mobile"></result>

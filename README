@@ -10,3 +10,8 @@ jdbc.properties 使用utf-8编码格式 不支持amp;
 
 1，返回字段 是在sql中控制的
 2，resultMap是做映射的  表字段跟实体类字段不同 这里就会取到作用。
+
+   mybatis3.0 添加了association和collection标签专门用于对多个相关实体类数据进行级联查询，
+   但仍不支持多个相关实体类数据的级联保存和级联删除操作。
+3, collection: 类中包含list          (一对多)
+4, association: 类中 包含一个单体类    (多对一)
